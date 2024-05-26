@@ -1,0 +1,90 @@
+/* Styles for different screen sizes */
+
+/* Styles for screens larger than 800px */
+@media (min-width: 800px) {
+    .TextFieldInputBoxes,
+    .LoginRegisterImage {
+        width: 400px;
+        height: auto;
+    }
+
+    .LoginRegisterHeader {
+        font-size: 64px;
+    }
+    .Button {
+        width: 200px;
+        height: 40px;
+
+    }
+}
+
+/* Styles for screens smaller than 800px */
+@media (max-width: 800px) {
+    .TextFieldInputBoxes,
+    .LoginRegisterImage {
+        width: 350px;
+        height: auto;
+    }
+
+    .LoginRegisterHeader {
+        font-size: 48px;
+    }
+    .Button {
+        width: 50px;
+        height: 40px;
+    }
+}
+
+/* Styles for screens smaller than 500px */
+@media (max-width: 500px) {
+    .TextFieldInputBoxes,
+    .LoginRegisterImage {
+        width: 200px;
+    }
+
+    .LoginRegisterHeader {
+        font-size: 32px;
+    }
+    .Button {
+        width: 50px;
+        height: 40px;
+    }
+}
+
+/* Styles for text elements */
+.Text {
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 20px;
+    user-select: none;
+    color: red;
+}
+
+/* Styles for screens larger than 800px */
+@media (min-width: 800px) {
+    .Text {
+        font-size: 24px;
+    }
+}
+
+/* Styles for screens smaller than 800px */
+@media (max-width: 800px) {
+    .Text {
+        font-size: 20px;
+    }
+}
+
+/* Styles for screens smaller than 500px */
+@media (max-width: 500px) {
+    .Text {
+        font-size: 16px;
+    }
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+}
