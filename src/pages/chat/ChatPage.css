@@ -1,0 +1,84 @@
+.chatDiv {
+    background-image: url(../../images/ChatImage.jpg);
+    background-repeat: no-repeat;
+    background-size:100vw 120vh;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.messageBox {
+    position: relative;
+    width: 50%;
+    height: 50vh;
+    background-color: #f0f0f0;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 20px;
+    overflow-y: auto;
+    margin-top: 20px;
+}
+
+.messageBox p {
+    word-wrap: break-word;
+    background-color: #d0d0d0;
+    padding: 5px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.chatDiv input[type="text"] {
+    width: 50%;
+    padding: 5px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+.chatDiv button {
+    width: 50%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+}
+
+.chatDiv button:hover {
+    background-color: #0056b3;
+}
+
+
+@media (min-width: 768px) {
+    .messageBox {
+        width: 30%;
+    }
+
+    .chatDiv input[type="text"] {
+        width: 31.45%;
+    }
+
+    .chatDiv button {
+        width: 15%;
+    }
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+.messageBox::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.messageBox {
+    scrollbar-width: none;
+}
+
+/* Hide scrollbar for IE and Edge */
+.messageBox {
+    -ms-overflow-style: none;
+}

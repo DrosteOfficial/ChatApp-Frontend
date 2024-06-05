@@ -14,7 +14,7 @@
     .Button {
         width: 200px;
         height: 40px;
-
+        margin: 5px;
     }
 }
 
@@ -30,8 +30,10 @@
         font-size: 48px;
     }
     .Button {
-        width: 50px;
+        width: 90px;
         height: 40px;
+        margin: 5px;
+        font-size: 15px;
     }
 }
 
@@ -46,8 +48,11 @@
         font-size: 32px;
     }
     .Button {
-        width: 50px;
+        width: 70px;
         height: 40px;
+        font-size: 12px;
+        margin: 5px;
+
     }
 }
 
@@ -87,4 +92,9 @@
     align-items: center;
     height: 100vh;
     background-color: #f5f5f5;
+
+    .registerLoginChoice{
+        margin: 5px;
+    }
 }
+
