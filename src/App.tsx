@@ -8,8 +8,7 @@ import ChatPage from "./pages/chat/ChatPage";
 function App() {
   return (
       <Routes>
-          <Route path={"/"} element={<Home />}/>
-          <Route path={"/login"} element={<LoginPage/>}/>
+          <Route path={"/"} element={<LoginPage/>}/>
           <Route path={"/register"} element={<Register/>}/>
           <Route path={"/chat"} element={<ChatPage/>}/>
 

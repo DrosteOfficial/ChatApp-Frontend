@@ -1,55 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
-import {useNavigate} from "react-router-dom";
 import './ChatPage.css';
-
-interface Message {
-    id?: number;
-    message: string;
-    senderId: number;
-}
-
-interface Payload {
-    regularToken: string;
-    message: Message;
-    topic: string;
-}
+import {sendMessage} from "../../service/chatRelated/SendMessage";
+import {createWebSocketURL} from "../../service/chatRelated/CreateWebSocketURL";
+import {Navigate} from "../../service/Utils/Navigate";
 
 const ChatPage: React.FC = () => {
     const [messageContent, setMessageContent] = useState("");
     const [messageList, setMessageList] = useState<string[]>([]);
-    const [socket, setSocket] = useState<WebSocket | null>(null);
+    const [socket, setSocket] = useState<WebSocket | null>(null);;
     const [isConnected, setIsConnected] = useState(false);
-    const navigate = useNavigate();
 
-    const createWebSocketURL = (params: Record<string, string | number>) => {
-        const url = 'ws://localhost:8080/websocket';
-        const stringParams = Object.fromEntries(
-            Object.entries(params).map(([key, value]) => [key, String(value)])
-        );
-        const queryParams = new URLSearchParams(stringParams).toString();
-        return `${url}?${queryParams}`;
-    }
-
-    const handleWebSocket = async () => {
+    useEffect(() => {
         const params = {
             topic: "chat",
         };
+
         const url = createWebSocketURL(params);
-        const socket = new WebSocket(url);
 
-        if (isConnected || (socket && socket.readyState === WebSocket.OPEN)) {
-            return;
-        }
+        const socket =  new WebSocket(url);
 
-
-
-        socket.onopen = function(event) {
+        socket.onopen = function open(event) {
             console.log('WebSocket is connected.');
             setIsConnected(true);
         };
 
-        socket.onmessage = function(event) {
+        socket.onmessage = function incoming(event) {
             console.log('Message from server ', event.data);
             try {
                 const messages = event.data.split(/, (?=[\w\d]+:)/);
@@ -61,51 +36,25 @@ const ChatPage: React.FC = () => {
             }
         };
 
-        socket.onerror = function(error) {
+        socket.onerror = function error(error) {
             console.log('WebSocket Error: ', error);
         };
 
-        socket.onclose = function(event) {
+        socket.onclose = function close(event) {
             console.log('WebSocket connection closed: ', event.code, event.reason);
-            navigate("/login");
             setIsConnected(false);
         };
 
+
         setSocket(socket);
-        return;
-    };
-
-    useEffect(() => {
-        handleWebSocket().then();
-
-        // Cleanup function
         return () => {
-            if (socket) {
-                socket.close();
-            }
-        };
-    }, []); // Empty dependency array ensures this runs once on mount and cleanup on unmount
-
-    const sendMessage = () => {
-        if (socket && socket.readyState === WebSocket.OPEN) {
-            const trimmedMessage = messageContent.trim();
-
-            if (!trimmedMessage) {
-                return;
-            }
-
-            const message: Message = {
-                message: trimmedMessage,
-                senderId: Number(Cookies.get("id")) || 0
-            };
-            const payload: Payload = {
-                regularToken: Cookies.get("token") || "",
-                message: message,
-                topic: "chat"
-            };
-            socket.send(JSON.stringify(payload));
-            setMessageContent("");
+            socket.close();
         }
+    }, []);
+
+    const SendMessage = () => {
+        sendMessage(socket, messageContent);
+        setMessageContent("");
     };
 
     return (
@@ -117,7 +66,7 @@ const ChatPage: React.FC = () => {
             </div>
             <input type="text" value={messageContent} onChange={(e) => setMessageContent(e.target.value)}
                    placeholder="Message"/>
-            <button onClick={sendMessage}>Send</button>
+            <button onClick={SendMessage}>Send</button>
         </div>
     );
 };

@@ -4,8 +4,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
 import styles from './Login.module.css';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import {handleLogin} from "../../service/userRelated/HandleLogin";
 
 
 function Login() {
@@ -17,35 +16,8 @@ function Login() {
     const [errorMessage, setErrorMessage] = useState("");
     const [response, setResponse] = useState("");
 
-    const handleLogin = async () => {
-        let loginRequest = {
-            username: username,
-            password: password
-        };
-
-        // Create an axios instance with the tokenType and token
-        const instance = axios.create({
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-            },
-        });
-
-        try {
-            const result = await axios.post(url, loginRequest);
-            console.log(result);
-            if (result.data && result.data.token) {
-                Cookies.set("token", result.data.token, { domain: 'localhost', path: '/' });
-                Cookies.set("refreshToken", result.data.refreshToken, { domain: 'localhost', path: '/' });
-                Cookies.set("id", result.data.id, { domain: 'localhost', path: '/' });
-                Cookies.set('test', 'test value', { expires: 7, path: '/' });
-                setResponse(result.data);
-                console.log(result);
-                navigate("/chat");
-            }
-        } catch (error) {
-            console.log(error);
-            setErrorMessage("Invalid username or password");
-        }
+    const login = () => {
+        handleLogin(username, password, navigate, setErrorMessage);
     };
     const goToRegister = () => {
         navigate("/register");
@@ -73,13 +45,13 @@ function Login() {
                     onChange={(e) => setPassword(e.target.value)}
                     onKeyPress={(e) => {
                         if (e.key === 'Enter') {
-                            handleLogin();
+                            login();
                         }
                     }}
                 />
                 {errorMessage && <p className={styles["Text"]}>{errorMessage}</p>}
                 <div className={"registerLoginChoice"}>
-                    <Button className={styles["Button"]} variant="contained" color="primary" onClick={handleLogin}>
+                    <Button className={styles["Button"]} variant="contained" color="primary" onClick={login}>
                         Login
                     </Button>
                     <Button className={styles["Button"]} variant="contained" color="primary" onClick={goToRegister}>
